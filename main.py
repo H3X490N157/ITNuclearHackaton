@@ -6,13 +6,16 @@ import matplotlib.pyplot as plt
 
 faceCascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 print("Выберите режим работы:)")
-print("Введите 0 для работы с веб-камерой")
+print("Введите 0 для выхода")
+print("Введите 1 для работы с веб-камерой")
 print("Введите любого другого символа будет означать работу с видео в формате .mp4")
 x = input()
-if x == "0":
+if x == "1":
     cap = cv2.VideoCapture(0)
+elif x == "0":
+    exit()
 else:
-    print("Введи имя файла, который хотите открытьс указанием формата .mp4")
+    print("Введи имя файла, который хотите открыть с указанием формата .mp4")
     cap = cv2.VideoCapture(input())
 if not cap.isOpened():
     raise IOError("Техническая ошибка")
