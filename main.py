@@ -1,5 +1,8 @@
 from deepface import DeepFace
 import cv2
+import tkinter as tk
+from tkinter import ttk
+import matplotlib.pyplot as plt
 
 faceCascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 print("Выберите режим работы:)")
@@ -14,7 +17,7 @@ else:
 if not cap.isOpened():
     raise IOError("Техническая ошибка")
     
-ton = [0 for i in range(6)]
+ton = [1 for i in range(6)]
 
 while True:
     _, frame = cap.read()
@@ -30,16 +33,22 @@ while True:
             #к сожалению, putText только для латинских символов и цифр
             if result[0]['dominant_emotion'] == "neutral":
                 print("спокойствие")
+                ton[0] += 1
             elif result[0]['dominant_emotion'] == "sad":
                 print("грусть")
+                ton[1] += 1
             elif result[0]['dominant_emotion'] == "fear":
                 print("страх")
+                ton[2] += 1
             elif result[0]['dominant_emotion'] == "surprise":
                 print("удивление")
+                ton[3] += 1
             elif result[0]['dominant_emotion'] == "angry":
                 print("злость")
+                ton[4] += 1
             elif result[0]['dominant_emotion'] == "happy":
                 print("радость")
+                ton[5] += 1
         except:
             pass
             
@@ -64,3 +73,14 @@ else:
 
 cap.release()
 cv2.destroyAllWindows() 
+
+# Данные для круговой диаграммы
+labels = ['Спокойствие', 'Грусть', 'Страх', 'Удивление', 'Злость', 'Радость']
+
+# Создание круговой диаграммы
+fig, ax = plt.subplots()
+ax.pie(ton, labels=labels, autopct='%1.1f%%', startangle=90)
+ax.axis('equal')  # Чтобы был ровный круг
+
+plt.show()
+
